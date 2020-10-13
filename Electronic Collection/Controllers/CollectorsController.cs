@@ -7,9 +7,13 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Electronic_Collection.Data;
 using Electronic_Collection.Models;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace Electronic_Collection.Controllers
 {
+    [Authorize(Roles = "Collector")]
     public class CollectorsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -22,34 +26,35 @@ namespace Electronic_Collection.Controllers
         // GET: Collectors
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Collector.Include(c => c.IdentityUser);
-            return View(await applicationDbContext.ToListAsync());
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var collector = _context.Collector.Where(c => c.IdentityUserId ==
+            userId).SingleOrDefault();
+
+            if (collector == null)
+            {
+
+                return RedirectToAction("Create");
+
+            }
+            return View("Details", collector);
         }
 
         // GET: Collectors/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(Collector collector)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var collector = await _context.Collector
-                .Include(c => c.IdentityUser)
-                .FirstOrDefaultAsync(m => m.CollectorId == id);
             if (collector == null)
             {
                 return NotFound();
             }
-
             return View(collector);
         }
 
         // GET: Collectors/Create
         public IActionResult Create()
         {
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id");
-            return View();
+            Collector collector = new Collector();
+
+            return View(collector);
         }
 
         // POST: Collectors/Create
@@ -57,32 +62,37 @@ namespace Electronic_Collection.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CollectorId,Name,Console,Game,Genre,GamingMoment,PicturePath,IdentityUserId")] Collector collector)
+        public async Task<IActionResult> Create(Collector collector)
         {
             if (ModelState.IsValid)
             {
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                collector.IdentityUserId = userId;
                 _context.Add(collector);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                _context.SaveChanges();
+                return RedirectToAction("Create");
+
             }
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", collector.IdentityUserId);
-            return View(collector);
+
+
+            return RedirectToAction("Details");
         }
 
         // GET: Collectors/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            var collector = _context.Collector.SingleOrDefault(c => c.CollectorId == id);
             if (id == null)
             {
                 return NotFound();
             }
 
-            var collector = await _context.Collector.FindAsync(id);
+
             if (collector == null)
             {
                 return NotFound();
             }
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", collector.IdentityUserId);
+
             return View(collector);
         }
 
@@ -91,35 +101,28 @@ namespace Electronic_Collection.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CollectorId,Name,Console,Game,Genre,GamingMoment,PicturePath,IdentityUserId")] Collector collector)
+        public async Task<IActionResult> Edit(int id, Collector collector)
         {
-            if (id != collector.CollectorId)
+            try
             {
-                return NotFound();
-            }
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var collectorFromDb = _context.Collector.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+                collectorFromDb.Name = collector.Name;
+                collectorFromDb.Console = collector.Console;
+                collectorFromDb.Game = collector.Game;
+                collectorFromDb.Genre = collector.Genre;
+                collectorFromDb.GamingMoment = collector.GamingMoment;
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(collector);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CollectorExists(collector.CollectorId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                _context.Update(collectorFromDb);
+                _context.SaveChanges();
+                return RedirectToAction("Details", collectorFromDb);
+
             }
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", collector.IdentityUserId);
-            return View(collector);
+            catch 
+            {
+
+                return RedirectToAction("Index");
+            }
         }
 
         // GET: Collectors/Delete/5

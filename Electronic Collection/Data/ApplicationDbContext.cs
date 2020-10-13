@@ -22,13 +22,15 @@ namespace Electronic_Collection.Data
             .HasData(
             new IdentityRole
             {
-                Name = "customer",
-                NormalizedName = "CUSTOMER"
+                Name = "Collector",
+                NormalizedName = "COLLECTOR"
             }
             );
         }
 
         public DbSet<Electronic_Collection.Models.Collector> Collector { get; set; }
+
+        public DbSet<Electronic_Collection.Models.Item> Item { get; set; }
 
     }
 }
