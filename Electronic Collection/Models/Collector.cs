@@ -27,6 +27,18 @@ namespace Electronic_Collection.Models
         public string PicturePath { get; set; }
         
         
+        [ForeignKey("Collection")]
+        public int CollectionId { get; set; }
+        public CollectionObj CollectorCollection { get; set; }
+
+        [ForeignKey("Item")]
+        public int ItemId { get; set; }
+        public Item Item { get; set; }
+
+        [ForeignKey("Wish List")]
+        public int WishListId { get; set; }
+        public string WishList { get; set; }
+
         [ForeignKey("IdentityUser")]
         public string IdentityUserId { get; set; }
         public IdentityUser IdentityUser { get; set; }
