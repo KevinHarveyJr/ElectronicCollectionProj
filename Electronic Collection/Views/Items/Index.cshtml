@@ -13,12 +13,6 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Type)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Genre)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.ReleaseDate)
             </th>
             <th></th>
@@ -27,12 +21,6 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Type)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Genre)
-            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ReleaseDate)
             </td>

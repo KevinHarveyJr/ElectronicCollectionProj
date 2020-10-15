@@ -18,6 +18,9 @@ namespace Electronic_Collection.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+            builder.Entity<CollectionObj>().HasKey(o => new { o.CollectorId, o.ItemId });
+            builder.Entity<CollectorWishlist>().HasKey(w => new { w.CollectorId, w.ItemId });
+            builder.Entity<CollectorLikes>().HasKey(l => new { l.CollectorId, l.ItemId });
             builder.Entity<IdentityRole>()
             .HasData(
             new IdentityRole
@@ -28,9 +31,20 @@ namespace Electronic_Collection.Data
             );
         }
 
+
         public DbSet<Electronic_Collection.Models.Collector> Collector { get; set; }
 
         public DbSet<Electronic_Collection.Models.Item> Item { get; set; }
+
+        public DbSet<Electronic_Collection.Models.CollectionObj> CollectorCollection { get; set; }
+
+        public DbSet<Electronic_Collection.Models.CollectorLikes> CollectorLikes { get; set; }
+
+        public DbSet<Electronic_Collection.Models.CollectorWishlist> CollectorWishlist { get; set; }
+
+        public DbSet<Electronic_Collection.Models.GenreObj> Genre { get; set; }
+
+        public DbSet<Electronic_Collection.Models.TypeObj> Type { get; set; }
 
     }
 }
