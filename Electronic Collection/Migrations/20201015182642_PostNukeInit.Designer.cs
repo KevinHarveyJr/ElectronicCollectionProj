@@ -7,19 +7,37 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Electronic_Collection.Data.Migrations
+namespace Electronic_Collection.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201013212543_ChangedIdentityRole")]
-    partial class ChangedIdentityRole
+    [Migration("20201015182642_PostNukeInit")]
+    partial class PostNukeInit
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.8")
+                .HasAnnotation("ProductVersion", "3.1.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("Electronic_Collection.Models.CollectionObj", b =>
+                {
+                    b.Property<int>("CollectorId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ItemId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CollectorId", "ItemId");
+
+                    b.HasIndex("CollectorId")
+                        .IsUnique();
+
+                    b.HasIndex("ItemId");
+
+                    b.ToTable("CollectorCollection");
+                });
 
             modelBuilder.Entity("Electronic_Collection.Models.Collector", b =>
                 {
@@ -27,6 +45,9 @@ namespace Electronic_Collection.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CollectionId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Console")
                         .HasColumnType("nvarchar(max)");
@@ -49,6 +70,12 @@ namespace Electronic_Collection.Data.Migrations
                     b.Property<string>("PicturePath")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("WishList")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("WishListId")
+                        .HasColumnType("int");
+
                     b.HasKey("CollectorId");
 
                     b.HasIndex("IdentityUserId");
@@ -56,23 +83,101 @@ namespace Electronic_Collection.Data.Migrations
                     b.ToTable("Collector");
                 });
 
+            modelBuilder.Entity("Electronic_Collection.Models.CollectorLikes", b =>
+                {
+                    b.Property<int>("CollectorId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ItemId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDislike")
+                        .HasColumnType("bit");
+
+                    b.HasKey("CollectorId", "ItemId");
+
+                    b.HasIndex("ItemId");
+
+                    b.ToTable("CollectorLikes");
+                });
+
+            modelBuilder.Entity("Electronic_Collection.Models.CollectorWishlist", b =>
+                {
+                    b.Property<int>("CollectorId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ItemId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("WishList")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("WishListId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CollectorId", "ItemId");
+
+                    b.HasIndex("ItemId");
+
+                    b.ToTable("CollectorWishlist");
+                });
+
+            modelBuilder.Entity("Electronic_Collection.Models.GenreObj", b =>
+                {
+                    b.Property<int>("GenreId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("GenreId");
+
+                    b.ToTable("Genre");
+                });
+
             modelBuilder.Entity("Electronic_Collection.Models.Item", b =>
                 {
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("ItemId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Genre")
+                    b.Property<int>("GenreId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ReleaseDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Type")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("TypeId")
+                        .HasColumnType("int");
 
-                    b.HasKey("Name");
+                    b.HasKey("ItemId");
+
+                    b.HasIndex("GenreId");
+
+                    b.HasIndex("TypeId");
 
                     b.ToTable("Item");
+                });
+
+            modelBuilder.Entity("Electronic_Collection.Models.TypeObj", b =>
+                {
+                    b.Property<int>("TypeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("TypeTitle")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("TypeId");
+
+                    b.ToTable("Type");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -104,8 +209,8 @@ namespace Electronic_Collection.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "c20ae07b-0185-4094-ac72-8244f29db9a2",
-                            ConcurrencyStamp = "8e28f989-ba3f-4a0f-8d4a-c077a7db3f13",
+                            Id = "dba11744-3c44-402d-bd14-18248eb62fd7",
+                            ConcurrencyStamp = "73eaf887-4b85-48b3-b7a2-3b040df8fe3a",
                             Name = "Collector",
                             NormalizedName = "COLLECTOR"
                         });
@@ -280,11 +385,71 @@ namespace Electronic_Collection.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("Electronic_Collection.Models.CollectionObj", b =>
+                {
+                    b.HasOne("Electronic_Collection.Models.Collector", "Collector")
+                        .WithOne("CollectorCollection")
+                        .HasForeignKey("Electronic_Collection.Models.CollectionObj", "CollectorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Electronic_Collection.Models.Item", "Item")
+                        .WithMany()
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Electronic_Collection.Models.Collector", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "IdentityUser")
                         .WithMany()
                         .HasForeignKey("IdentityUserId");
+                });
+
+            modelBuilder.Entity("Electronic_Collection.Models.CollectorLikes", b =>
+                {
+                    b.HasOne("Electronic_Collection.Models.Collector", "Collector")
+                        .WithMany()
+                        .HasForeignKey("CollectorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Electronic_Collection.Models.Item", "Item")
+                        .WithMany()
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Electronic_Collection.Models.CollectorWishlist", b =>
+                {
+                    b.HasOne("Electronic_Collection.Models.Collector", "Collector")
+                        .WithMany()
+                        .HasForeignKey("CollectorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Electronic_Collection.Models.Item", "Item")
+                        .WithMany()
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Electronic_Collection.Models.Item", b =>
+                {
+                    b.HasOne("Electronic_Collection.Models.GenreObj", "GenreObj")
+                        .WithMany()
+                        .HasForeignKey("GenreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Electronic_Collection.Models.TypeObj", "TypeObj")
+                        .WithMany()
+                        .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

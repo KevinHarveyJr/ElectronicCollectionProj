@@ -19,11 +19,11 @@ namespace Electronic_Collection.Models
         public DateTime ReleaseDate { get; set; }
 
 
-        [ForeignKey("Genre")]
+        [ForeignKey("GenreObj")]
         public int GenreId { get; set; }
         public GenreObj GenreObj { get; set; }
 
-        [ForeignKey("Type")]
+        [ForeignKey("TypeObj")]
         public int TypeId { get; set; }
         public TypeObj TypeObj { get; set; }
     }
