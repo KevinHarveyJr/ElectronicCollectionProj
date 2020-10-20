@@ -16,7 +16,7 @@ namespace Electronic_Collection.Models
         public string Name { get; set; }
         
         [Display(Name = "Item's Release Date")]
-        public DateTime ReleaseDate { get; set; }
+        public string ReleaseDate { get; set; }
 
 
         [ForeignKey("GenreObj")]
