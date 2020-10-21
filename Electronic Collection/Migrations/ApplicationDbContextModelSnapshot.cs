@@ -148,8 +148,8 @@ namespace Electronic_Collection.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("ReleaseDate")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("ReleaseDate")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("TypeId")
                         .HasColumnType("int");
@@ -161,6 +161,21 @@ namespace Electronic_Collection.Migrations
                     b.HasIndex("TypeId");
 
                     b.ToTable("Item");
+                });
+
+            modelBuilder.Entity("Electronic_Collection.Models.TitleInput", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("TitleToSearchBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("INPUTS");
                 });
 
             modelBuilder.Entity("Electronic_Collection.Models.TypeObj", b =>
@@ -207,8 +222,8 @@ namespace Electronic_Collection.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "dba11744-3c44-402d-bd14-18248eb62fd7",
-                            ConcurrencyStamp = "73eaf887-4b85-48b3-b7a2-3b040df8fe3a",
+                            Id = "d5b87ab4-4ff5-4a29-bc22-5895db2be5ea",
+                            ConcurrencyStamp = "9145a464-c946-4837-9366-c693c8322c90",
                             Name = "Collector",
                             NormalizedName = "COLLECTOR"
                         });

@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Electronic_Collection.Data;
 using Electronic_Collection.Models;
+using System.Net.Http;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace Electronic_Collection.Controllers
 {
@@ -20,9 +23,87 @@ namespace Electronic_Collection.Controllers
         }
 
         // GET: Items
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> GamesIndex()
         {
-            return View(await _context.Item.ToListAsync());
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri("https://api.rawg.io/api/games");
+
+            string obtainedFromFormOnView = "action";
+
+            // HttpResponseMessage response = await client.GetAsync("?genres=" + obtainedFromFormOnView);
+            HttpResponseMessage response = await client.GetAsync("");
+
+            List<Item> itemsToChooseFrom = new List<Item>();
+
+            if (response.IsSuccessStatusCode)
+            {
+                string data = await response.Content.ReadAsStringAsync();
+                JObject jsonResults = JsonConvert.DeserializeObject<JObject>(data);
+                
+
+                for (int i = 0; i < 10; i++)
+                {
+                    JToken name = jsonResults["results"][i]["name"];
+                    JToken releaseDate = jsonResults["results"][i]["released"];
+                    JToken genreObj = jsonResults["results"][i]["released"];
+
+                    Item randomItem = new Item();
+                    randomItem.Name = name.ToString();
+                    randomItem.ReleaseDate = releaseDate.ToString();
+                    randomItem.GenreObj = new GenreObj();
+                    randomItem.GenreObj.Title = genreObj.ToString();
+
+
+                    itemsToChooseFrom.Add(randomItem);
+                }
+            }
+
+            return View(itemsToChooseFrom);
+        }
+
+        public ActionResult SearchByTitle()
+        {
+            TitleInput input = new TitleInput();
+
+            return View(input);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> SearchByTitle(TitleInput titleInput)
+        {
+            // make another games API call
+            // call for Games, with a title of 'titleToSearchBy'
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri("https://api.rawg.io/api/games");
+
+            HttpResponseMessage response = await client.GetAsync("?search=" + titleInput.TitleToSearchBy);
+
+            List<Item> itemsToChooseFrom = new List<Item>();
+
+            if (response.IsSuccessStatusCode)
+            {
+                string data = await response.Content.ReadAsStringAsync();
+                JObject jsonResults = JsonConvert.DeserializeObject<JObject>(data);
+
+
+                for (int i = 0; i < 10; i++)
+                {
+                    JToken name = jsonResults["results"][i]["name"];
+                    JToken releaseDate = jsonResults["results"][i]["released"];
+                    JToken genreObj = jsonResults["results"][i]["released"];
+
+                    Item randomItem = new Item();
+                    randomItem.Name = name.ToString();
+                    randomItem.ReleaseDate = releaseDate.ToString();
+                    randomItem.GenreObj = new GenreObj();
+                    randomItem.GenreObj.Title = genreObj.ToString();
+
+
+                    itemsToChooseFrom.Add(randomItem);
+                }
+            }
+
+            return View("GamesIndex", itemsToChooseFrom);
         }
 
         // GET: Items/Details/5
