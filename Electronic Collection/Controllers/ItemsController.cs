@@ -211,14 +211,9 @@ namespace Electronic_Collection.Controllers
                 for (int i = 0; i < 10; i++)
                 {
                     JToken name = jsonResults["results"][i]["name"];
-                    JToken releaseDate = jsonResults["results"][i]["released"];
-                    //JToken genreObj = jsonResults["results"][i]["released"];
 
                     Item randomItem = new Item();
                     randomItem.Name = name.ToString();
-                    randomItem.ReleaseDate = releaseDate.ToString();
-                    //randomItem.GenreObj = new GenreObj();
-                    //randomItem.GenreObj.Title = genreObj.ToString();
 
 
                     itemsToChooseFrom.Add(randomItem);
@@ -254,6 +249,8 @@ namespace Electronic_Collection.Controllers
                 for (int i = 0; i < 10; i++)
                 {
                     JToken name = jsonResults["results"][i]["name"];
+                    JToken yearStart = jsonResults["results"][i]["year_start"];
+                    JToken yearEnd = jsonResults["results"][i]["year_end"];
 
                     Item randomItem = new Item();
                     randomItem.Name = name.ToString();
