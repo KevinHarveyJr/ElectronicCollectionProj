@@ -31,7 +31,7 @@ namespace Electronic_Collection.Data
             );
         }
 
-        public DbSet<TitleInput> INPUTS { get; set; }
+        
         public DbSet<Electronic_Collection.Models.Collector> Collector { get; set; }
 
         public DbSet<Electronic_Collection.Models.Item> Item { get; set; }
