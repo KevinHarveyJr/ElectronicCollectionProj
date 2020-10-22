@@ -89,13 +89,10 @@ namespace Electronic_Collection.Controllers
                 {
                     JToken name = jsonResults["results"][i]["name"];
                     JToken releaseDate = jsonResults["results"][i]["released"];
-                    JToken genreObj = jsonResults["results"][i]["released"];
 
                     Item randomItem = new Item();
                     randomItem.Name = name.ToString();
                     randomItem.ReleaseDate = releaseDate.ToString();
-                    randomItem.GenreObj = new GenreObj();
-                    randomItem.GenreObj.Title = genreObj.ToString();
 
 
                     itemsToChooseFrom.Add(randomItem);
@@ -127,13 +124,11 @@ namespace Electronic_Collection.Controllers
                 {
                     JToken name = jsonResults["results"][i]["name"];
                     JToken releaseDate = jsonResults["results"][i]["released"];
-                    JToken genreObj = jsonResults["results"][i]["released"];
 
                     Item randomItem = new Item();
                     randomItem.Name = name.ToString();
                     randomItem.ReleaseDate = releaseDate.ToString();
-                    randomItem.GenreObj = new GenreObj();
-                    randomItem.GenreObj.Title = genreObj.ToString();
+                    
 
 
                     itemsToChooseFrom.Add(randomItem);
@@ -191,6 +186,51 @@ namespace Electronic_Collection.Controllers
         public ActionResult SearchByGenre()
         {
             GenreObj input = new GenreObj();
+
+            return View(input);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> SearchByTags(TypeObj typeObj)
+        {
+            // make another games API call
+            // call for Games, with a title of 'titleToSearchBy'
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri("https://api.rawg.io/api/tags");
+
+            HttpResponseMessage response = await client.GetAsync("?search=" + typeObj.TypeTitle);
+
+            List<Item> itemsToChooseFrom = new List<Item>();
+
+            if (response.IsSuccessStatusCode)
+            {
+                string data = await response.Content.ReadAsStringAsync();
+                JObject jsonResults = JsonConvert.DeserializeObject<JObject>(data);
+
+
+                for (int i = 0; i < 10; i++)
+                {
+                    JToken name = jsonResults["results"][i]["name"];
+                    JToken releaseDate = jsonResults["results"][i]["released"];
+                    //JToken genreObj = jsonResults["results"][i]["released"];
+
+                    Item randomItem = new Item();
+                    randomItem.Name = name.ToString();
+                    randomItem.ReleaseDate = releaseDate.ToString();
+                    //randomItem.GenreObj = new GenreObj();
+                    //randomItem.GenreObj.Title = genreObj.ToString();
+
+
+                    itemsToChooseFrom.Add(randomItem);
+                }
+            }
+
+            return View("GamesIndex", itemsToChooseFrom);
+        }
+
+        public ActionResult SearchByTags()
+        {
+            TypeObj input = new TypeObj();
 
             return View(input);
         }
