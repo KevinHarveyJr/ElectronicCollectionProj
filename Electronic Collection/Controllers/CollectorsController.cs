@@ -18,16 +18,20 @@ namespace Electronic_Collection.Controllers
     public class CollectorsController : Controller
     {
         private readonly ApplicationDbContext _context;
-        public readonly UserManager<Collector> _userManager{ get; set; }
+        public readonly UserManager<Collector> _userManager;
 
-        public CollectorsController(ApplicationDbContext context)
+        public CollectorsController(ApplicationDbContext context, UserManager<Collector> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Collectors
         public async Task<IActionResult> Index()
         {
+            var currentUser = await _userManager.GetUserAsync(User);
+            ViewBag.CurrentCollector = currentUser.CollectorId;
+            var messages = await _context.Messages.ToListAsync();
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var collector = _context.Collector.Where(c => c.IdentityUserId ==
             userId).SingleOrDefault();
@@ -78,6 +82,19 @@ namespace Electronic_Collection.Controllers
 
 
             return RedirectToAction("Details");
+        }
+
+        public async Task<IActionResult>Create(Message message)
+        {
+            if (ModelState.IsValid)
+            {
+                message.UserName = User.Identity.Name;
+                var sender = await _userManager.GetUserAsync(User);
+                message.CollectorId = sender.CollectorId;
+                await _context.Messages.AddAsync(message);
+                await _context.SaveChangesAsync();
+            }
+            return Error();
         }
 
         // GET: Collectors/Edit/5
@@ -160,6 +177,11 @@ namespace Electronic_Collection.Controllers
         private bool CollectorExists(int id)
         {
             return _context.Collector.Any(e => e.CollectorId == id);
+        }
+
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }
