@@ -23,7 +23,7 @@ namespace Electronic_Collection.Models
         public string Genre { get; set; }
         [Display(Name = "Favorite Gaming Moment")]
         public string GamingMoment { get; set; }
-        [Display(Name = "Full Name")]
+        //[Display(Name = "")]
         public string PicturePath { get; set; }
         
         [ForeignKey("Collection")]

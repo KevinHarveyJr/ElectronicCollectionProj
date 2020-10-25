@@ -21,6 +21,6 @@ namespace Electronic_Collection.Models
         public int ItemId { get; set; }
         public Item Item { get; set; }
 
-        // public int RAWGItemId { get; set; }
+        public string RAWGItemTitle { get; set; }
     }
 }
