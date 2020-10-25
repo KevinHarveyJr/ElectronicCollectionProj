@@ -10,6 +10,7 @@ using Electronic_Collection.Models;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
 
 namespace Electronic_Collection.Controllers
 {
@@ -17,6 +18,7 @@ namespace Electronic_Collection.Controllers
     public class CollectorsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        public readonly UserManager<Collector> _userManager{ get; set; }
 
         public CollectorsController(ApplicationDbContext context)
         {

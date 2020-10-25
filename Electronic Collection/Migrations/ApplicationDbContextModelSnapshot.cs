@@ -107,6 +107,9 @@ namespace Electronic_Collection.Migrations
                     b.Property<int>("ItemId")
                         .HasColumnType("int");
 
+                    b.Property<string>("RAWGItemTitle")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("WishList")
                         .HasColumnType("nvarchar(max)");
 
@@ -163,19 +166,32 @@ namespace Electronic_Collection.Migrations
                     b.ToTable("Item");
                 });
 
-            modelBuilder.Entity("Electronic_Collection.Models.TitleInput", b =>
+            modelBuilder.Entity("Electronic_Collection.Models.Message", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("TitleToSearchBy")
+                    b.Property<int>("CollectorId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("When")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
-                    b.ToTable("INPUTS");
+                    b.HasIndex("CollectorId");
+
+                    b.ToTable("Messages");
                 });
 
             modelBuilder.Entity("Electronic_Collection.Models.TypeObj", b =>
@@ -222,8 +238,8 @@ namespace Electronic_Collection.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "d5b87ab4-4ff5-4a29-bc22-5895db2be5ea",
-                            ConcurrencyStamp = "9145a464-c946-4837-9366-c693c8322c90",
+                            Id = "c79dae2c-7652-4561-a8e4-407c9d218690",
+                            ConcurrencyStamp = "be8bf309-3e01-427f-8671-220aee7351bb",
                             Name = "Collector",
                             NormalizedName = "COLLECTOR"
                         });
@@ -461,6 +477,15 @@ namespace Electronic_Collection.Migrations
                     b.HasOne("Electronic_Collection.Models.TypeObj", "TypeObj")
                         .WithMany()
                         .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Electronic_Collection.Models.Message", b =>
+                {
+                    b.HasOne("Electronic_Collection.Models.Collector", "Collector")
+                        .WithMany("Messages")
+                        .HasForeignKey("CollectorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

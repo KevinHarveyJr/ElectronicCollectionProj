@@ -15,6 +15,7 @@ using Microsoft.Extensions.Hosting;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using Electronic_Collection.ActionFilters;
+using Electronic_Collection.Hubs;
 
 namespace Electronic_Collection
 {
@@ -37,6 +38,7 @@ namespace Electronic_Collection
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultUI()
                 .AddDefaultTokenProviders();
+            services.AddSignalR();
             services.AddScoped<ClaimsPrincipal>(s => s.GetService<IHttpContextAccessor>().HttpContext.User);
             services.AddControllers(config =>
             {
@@ -67,6 +69,10 @@ namespace Electronic_Collection
 
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseSignalR(route =>
+            {
+                route.MapHub<ChatHub>("/Home/Index");
+            });
 
             app.UseEndpoints(endpoints =>
             {

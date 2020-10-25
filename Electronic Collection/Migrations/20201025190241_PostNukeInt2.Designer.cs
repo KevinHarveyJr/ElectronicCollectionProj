@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Electronic_Collection.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201015182642_PostNukeInit")]
-    partial class PostNukeInit
+    [Migration("20201025190241_PostNukeInt2")]
+    partial class PostNukeInt2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -109,6 +109,9 @@ namespace Electronic_Collection.Migrations
                     b.Property<int>("ItemId")
                         .HasColumnType("int");
 
+                    b.Property<string>("RAWGItemTitle")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("WishList")
                         .HasColumnType("nvarchar(max)");
 
@@ -150,8 +153,8 @@ namespace Electronic_Collection.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("ReleaseDate")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("ReleaseDate")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("TypeId")
                         .HasColumnType("int");
@@ -163,6 +166,34 @@ namespace Electronic_Collection.Migrations
                     b.HasIndex("TypeId");
 
                     b.ToTable("Item");
+                });
+
+            modelBuilder.Entity("Electronic_Collection.Models.Message", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CollectorId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("When")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CollectorId");
+
+                    b.ToTable("Messages");
                 });
 
             modelBuilder.Entity("Electronic_Collection.Models.TypeObj", b =>
@@ -209,8 +240,8 @@ namespace Electronic_Collection.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "dba11744-3c44-402d-bd14-18248eb62fd7",
-                            ConcurrencyStamp = "73eaf887-4b85-48b3-b7a2-3b040df8fe3a",
+                            Id = "c79dae2c-7652-4561-a8e4-407c9d218690",
+                            ConcurrencyStamp = "be8bf309-3e01-427f-8671-220aee7351bb",
                             Name = "Collector",
                             NormalizedName = "COLLECTOR"
                         });
@@ -448,6 +479,15 @@ namespace Electronic_Collection.Migrations
                     b.HasOne("Electronic_Collection.Models.TypeObj", "TypeObj")
                         .WithMany()
                         .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Electronic_Collection.Models.Message", b =>
+                {
+                    b.HasOne("Electronic_Collection.Models.Collector", "Collector")
+                        .WithMany("Messages")
+                        .HasForeignKey("CollectorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
