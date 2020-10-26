@@ -22,7 +22,7 @@ namespace Electronic_Collection.Models
         public int ItemId { get; set; }
         public Item Item { get; set; }
 
-        [Display(Name ="Item Name")]
+        [Display(Name ="Item Name(s)")]
         public string RAWGItemTitle { get; set; }
     }
 }
