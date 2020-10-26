@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
+using System.Diagnostics;
 
 namespace Electronic_Collection.Controllers
 {
@@ -93,8 +94,9 @@ namespace Electronic_Collection.Controllers
                 message.CollectorId = sender.CollectorId;
                 await _context.Messages.AddAsync(message);
                 await _context.SaveChangesAsync();
+                return Ok();
             }
-            return Error();
+            return View(message);
         }
 
         // GET: Collectors/Edit/5

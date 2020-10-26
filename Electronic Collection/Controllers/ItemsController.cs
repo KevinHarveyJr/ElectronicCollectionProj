@@ -230,6 +230,50 @@ namespace Electronic_Collection.Controllers
             return View(input);
         }
 
+        [HttpPost]
+        public async Task<ActionResult> SearchByStore(Store store)
+        {
+            // make another games API call
+            // call for Games, with a title of 'titleToSearchBy'
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri("https://api.rawg.io/api/stores");
+
+            HttpResponseMessage response = await client.GetAsync("?search=" + store.Name);
+
+            List<Store> storesToChooseFrom = new List<Store>();
+
+            if (response.IsSuccessStatusCode)
+            {
+                string data = await response.Content.ReadAsStringAsync();
+                JObject jsonResults = JsonConvert.DeserializeObject<JObject>(data);
+
+
+                for (int i = 0; i < 10; i++)
+                {
+                    JToken name = jsonResults["results"][i]["name"];
+                    JToken domain = jsonResults["results"][i]["domain"];
+                    JToken description = jsonResults["results"][i]["description"];
+
+                    Store randomStore = new Store();
+                    randomStore.Name = name.ToString();
+                    randomStore.Domain = domain.ToString();
+                    //randomStore.Description = description.ToString();
+
+
+                    storesToChooseFrom.Add(randomStore);
+                }
+            }
+
+            return View("GamesIndex", storesToChooseFrom);
+        }
+
+        public ActionResult SearchByStore()
+        {
+            Store input = new Store();
+
+            return View(input);
+        }
+
 
         public async Task<IActionResult> PlatformIndex()
         {

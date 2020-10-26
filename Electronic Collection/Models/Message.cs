@@ -11,7 +11,7 @@ namespace Electronic_Collection.Models
     {
         public int Id { get; set; }
         [Required]
-        [Display(Name ="Collector's Name")]
+        [Display(Name ="Collector's User Name")]
         public string UserName { get; set; }
         [Required]
         [Display(Name ="Message Text")]
@@ -21,5 +21,10 @@ namespace Electronic_Collection.Models
         [ForeignKey("Collector")]
         public int CollectorId { get; set; }
         public virtual Collector Collector { get; set; }
+
+        public Message()
+        {
+            When = DateTime.Now;
+        }
     }
 }
