@@ -171,7 +171,7 @@ namespace Electronic_Collection.Controllers
 
                     Item randomItem = new Item();
                     randomItem.Name = name.ToString();
-                    randomItem.ReleaseDate = releaseDate.ToString();
+                    //randomItem.ReleaseDate = releaseDate.ToString();
                     //randomItem.GenreObj = new GenreObj();
                     //randomItem.GenreObj.Title = genreObj.ToString();
 
@@ -240,7 +240,7 @@ namespace Electronic_Collection.Controllers
 
             HttpResponseMessage response = await client.GetAsync("?search=" + store.Name);
 
-            List<Store> storesToChooseFrom = new List<Store>();
+            List<Item> storesToChooseFrom = new List<Item>();
 
             if (response.IsSuccessStatusCode)
             {
@@ -251,12 +251,12 @@ namespace Electronic_Collection.Controllers
                 for (int i = 0; i < 10; i++)
                 {
                     JToken name = jsonResults["results"][i]["name"];
-                    JToken domain = jsonResults["results"][i]["domain"];
-                    JToken description = jsonResults["results"][i]["description"];
+                    //JToken domain = jsonResults["results"][i]["domain"];
+                    //JToken description = jsonResults["results"][i]["description"];
 
-                    Store randomStore = new Store();
+                    Item randomStore = new Item();
                     randomStore.Name = name.ToString();
-                    randomStore.Domain = domain.ToString();
+                    //randomStore.Domain = domain.ToString();
                     //randomStore.Description = description.ToString();
 
 
