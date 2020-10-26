@@ -11,6 +11,7 @@ namespace Electronic_Collection.Models
     {
         [Key]
         public int WishListId { get; set; }
+        [Display(Name ="WishList Name")]
         public string WishList { get; set; }
 
         [ForeignKey("Collector")]
@@ -21,6 +22,7 @@ namespace Electronic_Collection.Models
         public int ItemId { get; set; }
         public Item Item { get; set; }
 
+        [Display(Name ="Item Name")]
         public string RAWGItemTitle { get; set; }
     }
 }
