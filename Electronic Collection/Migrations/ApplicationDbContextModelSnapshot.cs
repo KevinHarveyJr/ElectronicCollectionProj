@@ -107,9 +107,6 @@ namespace Electronic_Collection.Migrations
                     b.Property<int>("ItemId")
                         .HasColumnType("int");
 
-                    b.Property<string>("RAWGItemTitle")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("WishList")
                         .HasColumnType("nvarchar(max)");
 
@@ -148,9 +145,6 @@ namespace Electronic_Collection.Migrations
                     b.Property<int>("GenreId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -164,60 +158,24 @@ namespace Electronic_Collection.Migrations
 
                     b.HasIndex("GenreId");
 
-                    b.HasIndex("Id");
-
                     b.HasIndex("TypeId");
 
                     b.ToTable("Item");
                 });
 
-            modelBuilder.Entity("Electronic_Collection.Models.Message", b =>
+            modelBuilder.Entity("Electronic_Collection.Models.TitleInput", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CollectorId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Text")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("When")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CollectorId");
-
-                    b.ToTable("Messages");
-                });
-
-            modelBuilder.Entity("Electronic_Collection.Models.Store", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Domain")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
+                    b.Property<string>("TitleToSearchBy")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Store");
+                    b.ToTable("INPUTS");
                 });
 
             modelBuilder.Entity("Electronic_Collection.Models.TypeObj", b =>
@@ -264,8 +222,8 @@ namespace Electronic_Collection.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "6f612451-e580-4c01-a9de-834217e5a8e4",
-                            ConcurrencyStamp = "d802e7f2-3b2d-442f-978a-2eb3369a28a8",
+                            Id = "d5b87ab4-4ff5-4a29-bc22-5895db2be5ea",
+                            ConcurrencyStamp = "9145a464-c946-4837-9366-c693c8322c90",
                             Name = "Collector",
                             NormalizedName = "COLLECTOR"
                         });
@@ -500,24 +458,9 @@ namespace Electronic_Collection.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Electronic_Collection.Models.Store", "Store")
-                        .WithMany()
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Electronic_Collection.Models.TypeObj", "TypeObj")
                         .WithMany()
                         .HasForeignKey("TypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Electronic_Collection.Models.Message", b =>
-                {
-                    b.HasOne("Electronic_Collection.Models.Collector", "Collector")
-                        .WithMany("Messages")
-                        .HasForeignKey("CollectorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

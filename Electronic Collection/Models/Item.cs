@@ -26,9 +26,5 @@ namespace Electronic_Collection.Models
         [ForeignKey("TypeObj")]
         public int TypeId { get; set; }
         public TypeObj TypeObj { get; set; }
-
-        [ForeignKey("Store")]
-        public int Id { get; set; }
-        public Store Store { get; set; }
     }
 }

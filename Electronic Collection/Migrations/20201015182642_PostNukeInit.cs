@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Electronic_Collection.Migrations
 {
-    public partial class PostNukeInt2 : Migration
+    public partial class PostNukeInit : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -213,7 +213,7 @@ namespace Electronic_Collection.Migrations
                     ItemId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: true),
-                    ReleaseDate = table.Column<string>(nullable: true),
+                    ReleaseDate = table.Column<DateTime>(nullable: false),
                     GenreId = table.Column<int>(nullable: false),
                     TypeId = table.Column<int>(nullable: false)
                 },
@@ -231,28 +231,6 @@ namespace Electronic_Collection.Migrations
                         column: x => x.TypeId,
                         principalTable: "Type",
                         principalColumn: "TypeId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Messages",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserName = table.Column<string>(nullable: false),
-                    Text = table.Column<string>(nullable: false),
-                    When = table.Column<DateTime>(nullable: false),
-                    CollectorId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Messages", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Messages_Collector_CollectorId",
-                        column: x => x.CollectorId,
-                        principalTable: "Collector",
-                        principalColumn: "CollectorId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -312,8 +290,7 @@ namespace Electronic_Collection.Migrations
                     CollectorId = table.Column<int>(nullable: false),
                     ItemId = table.Column<int>(nullable: false),
                     WishListId = table.Column<int>(nullable: false),
-                    WishList = table.Column<string>(nullable: true),
-                    RAWGItemTitle = table.Column<string>(nullable: true)
+                    WishList = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -335,7 +312,7 @@ namespace Electronic_Collection.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "c79dae2c-7652-4561-a8e4-407c9d218690", "be8bf309-3e01-427f-8671-220aee7351bb", "Collector", "COLLECTOR" });
+                values: new object[] { "dba11744-3c44-402d-bd14-18248eb62fd7", "73eaf887-4b85-48b3-b7a2-3b040df8fe3a", "Collector", "COLLECTOR" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -411,11 +388,6 @@ namespace Electronic_Collection.Migrations
                 name: "IX_Item_TypeId",
                 table: "Item",
                 column: "TypeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Messages_CollectorId",
-                table: "Messages",
-                column: "CollectorId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -445,25 +417,22 @@ namespace Electronic_Collection.Migrations
                 name: "CollectorWishlist");
 
             migrationBuilder.DropTable(
-                name: "Messages");
+                name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetRoles");
+                name: "Collector");
 
             migrationBuilder.DropTable(
                 name: "Item");
 
             migrationBuilder.DropTable(
-                name: "Collector");
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Genre");
 
             migrationBuilder.DropTable(
                 name: "Type");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUsers");
         }
     }
 }

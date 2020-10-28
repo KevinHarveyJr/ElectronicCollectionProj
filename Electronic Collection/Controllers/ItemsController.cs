@@ -171,7 +171,7 @@ namespace Electronic_Collection.Controllers
 
                     Item randomItem = new Item();
                     randomItem.Name = name.ToString();
-                    //randomItem.ReleaseDate = releaseDate.ToString();
+                    randomItem.ReleaseDate = releaseDate.ToString();
                     //randomItem.GenreObj = new GenreObj();
                     //randomItem.GenreObj.Title = genreObj.ToString();
 
@@ -226,50 +226,6 @@ namespace Electronic_Collection.Controllers
         public ActionResult SearchByTags()
         {
             TypeObj input = new TypeObj();
-
-            return View(input);
-        }
-
-        [HttpPost]
-        public async Task<ActionResult> SearchByStore(Store store)
-        {
-            // make another games API call
-            // call for Games, with a title of 'titleToSearchBy'
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri("https://api.rawg.io/api/stores");
-
-            HttpResponseMessage response = await client.GetAsync("?search=" + store.Name);
-
-            List<Item> storesToChooseFrom = new List<Item>();
-
-            if (response.IsSuccessStatusCode)
-            {
-                string data = await response.Content.ReadAsStringAsync();
-                JObject jsonResults = JsonConvert.DeserializeObject<JObject>(data);
-
-
-                for (int i = 0; i < 10; i++)
-                {
-                    JToken name = jsonResults["results"][i]["name"];
-                    //JToken domain = jsonResults["results"][i]["domain"];
-                    //JToken description = jsonResults["results"][i]["description"];
-
-                    Item randomStore = new Item();
-                    randomStore.Name = name.ToString();
-                    //randomStore.Domain = domain.ToString();
-                    //randomStore.Description = description.ToString();
-
-
-                    storesToChooseFrom.Add(randomStore);
-                }
-            }
-
-            return View("GamesIndex", storesToChooseFrom);
-        }
-
-        public ActionResult SearchByStore()
-        {
-            Store input = new Store();
 
             return View(input);
         }

@@ -23,15 +23,8 @@ namespace Electronic_Collection.Models
         public string Genre { get; set; }
         [Display(Name = "Favorite Gaming Moment")]
         public string GamingMoment { get; set; }
-        //[Display(Name = "")]
+        [Display(Name = "Full Name")]
         public string PicturePath { get; set; }
-
-        public Collector()
-        {
-            Messages = new HashSet<Message>();
-        }
-
-        public virtual ICollection<Message> Messages { get; set; }
         
         [ForeignKey("Collection")]
         public int CollectionId { get; set; }
