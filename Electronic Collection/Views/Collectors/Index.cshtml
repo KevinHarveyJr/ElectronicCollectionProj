@@ -60,11 +60,12 @@
             @*<td>
                 @Html.DisplayFor(modelItem => item.IdentityUser.Id)
             </td>*@
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.CollectorId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.CollectorId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.CollectorId">Delete</a>
-            </td>
+        <td>
+            <a asp-action="Edit" asp-route-id="@item.CollectorId">Edit</a> |
+            <a asp-action="Details" asp-route-id="@item.CollectorId">Details</a> |
+            <a asp-action="Delete" asp-route-id="@item.CollectorId">Delete</a>
+            
+        </td>
         </tr>
 }
     </tbody>

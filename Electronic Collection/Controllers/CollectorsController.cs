@@ -54,7 +54,7 @@ namespace Electronic_Collection.Controllers
         {
             Collector collector = new Collector();
 
-            return View(collector);
+            return View();
         }
 
         // POST: Collectors/Create
@@ -70,7 +70,7 @@ namespace Electronic_Collection.Controllers
                 collector.IdentityUserId = userId;
                 _context.Add(collector);
                 _context.SaveChanges();
-                return RedirectToAction("Create");
+                return RedirectToAction("");
 
             }
 

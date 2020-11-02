@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -11,10 +12,10 @@ namespace Electronic_Collection.Models
     {
         [Key]
         public int ItemId { get; set; }
-        
+
         [Display(Name = "Item Name")]
         public string Name { get; set; }
-        
+
         [Display(Name = "Item's Release Date")]
         public string ReleaseDate { get; set; }
 
