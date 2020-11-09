@@ -44,11 +44,13 @@ namespace Electronic_Collection.Controllers
                 for (int i = 0; i < 10; i++)
                 {
                     JToken name = jsonResults["results"][i]["name"];
-                    JToken releaseDate = jsonResults["results"][i]["released"];
+                    JToken Released = jsonResults["results"][i]["released"];
+                    
+
 
                     Item randomItem = new Item();
                     randomItem.Name = name.ToString();
-                    randomItem.ReleaseDate = releaseDate.ToString();
+                    randomItem.Released = Released.ToString();
                     
 
 
@@ -58,6 +60,8 @@ namespace Electronic_Collection.Controllers
 
             return View(itemsToChooseFrom);
         }
+
+
 
         public ActionResult SearchByTitle()
         {
@@ -88,11 +92,11 @@ namespace Electronic_Collection.Controllers
                 for (int i = 0; i < 10; i++)
                 {
                     JToken name = jsonResults["results"][i]["name"];
-                    JToken releaseDate = jsonResults["results"][i]["released"];
+                    JToken Released = jsonResults["results"][i]["released"];
 
                     Item randomItem = new Item();
                     randomItem.Name = name.ToString();
-                    randomItem.ReleaseDate = releaseDate.ToString();
+                    randomItem.Released = Released.ToString();
 
 
                     itemsToChooseFrom.Add(randomItem);
@@ -103,7 +107,7 @@ namespace Electronic_Collection.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> SearchByReleaseDate(DateInput dateInput)
+        public async Task<ActionResult> SearchByReleased(DateInput dateInput)
         {
             // make another games API call
             // call for Games, with a title of 'titleToSearchBy'
@@ -123,11 +127,11 @@ namespace Electronic_Collection.Controllers
                 for (int i = 0; i < 10; i++)
                 {
                     JToken name = jsonResults["results"][i]["name"];
-                    JToken releaseDate = jsonResults["results"][i]["released"];
+                    JToken Released = jsonResults["results"][i]["released"];
 
                     Item randomItem = new Item();
                     randomItem.Name = name.ToString();
-                    randomItem.ReleaseDate = releaseDate.ToString();
+                    randomItem.Released = Released.ToString();
                     
 
 
@@ -138,7 +142,7 @@ namespace Electronic_Collection.Controllers
             return View("GamesIndex", itemsToChooseFrom);
         }
 
-        public ActionResult SearchByReleaseDate()
+        public ActionResult SearchByReleased()
         {
             DateInput input = new DateInput();
 
@@ -166,14 +170,13 @@ namespace Electronic_Collection.Controllers
                 for (int i = 0; i < 10; i++)
                 {
                     JToken name = jsonResults["results"][i]["name"];
-                    JToken releaseDate = jsonResults["results"][i]["released"];
-                    //JToken genreObj = jsonResults["results"][i]["released"];
+                    JToken Released = jsonResults["results"][i]["released"];
+                    
 
                     Item randomItem = new Item();
                     randomItem.Name = name.ToString();
-                    randomItem.ReleaseDate = releaseDate.ToString();
-                    //randomItem.GenreObj = new GenreObj();
-                    //randomItem.GenreObj.Title = genreObj.ToString();
+                    randomItem.Released = Released.ToString();
+                    
 
 
                     itemsToChooseFrom.Add(randomItem);
@@ -339,7 +342,7 @@ namespace Electronic_Collection.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Type,Genre,ReleaseDate")] Item item)
+        public async Task<IActionResult> Create([Bind("Name,Type,Genre,Released")] Item item)
         {
             if (ModelState.IsValid)
             {
@@ -371,7 +374,7 @@ namespace Electronic_Collection.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Name,Type,Genre,ReleaseDate")] Item item)
+        public async Task<IActionResult> Edit(string id, [Bind("Name,Type,Genre,Released")] Item item)
         {
             if (id != item.Name)
             {

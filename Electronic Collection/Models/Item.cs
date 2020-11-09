@@ -17,7 +17,10 @@ namespace Electronic_Collection.Models
         public string Name { get; set; }
 
         [Display(Name = "Item's Release Date")]
-        public string ReleaseDate { get; set; }
+        public string Released { get; set; }
+        
+
+
 
 
         [ForeignKey("GenreObj")]
@@ -27,5 +30,8 @@ namespace Electronic_Collection.Models
         [ForeignKey("TypeObj")]
         public int TypeId { get; set; }
         public TypeObj TypeObj { get; set; }
+
+        [ForeignKey("CollectorLikes")]
+        public bool IsDislike { get; set; }
     }
 }

@@ -8,9 +8,13 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="Google.Apis" Version="1.49.0" />
+    <PackageReference Include="Google.Apis.Auth" Version="1.49.0" />
+    <PackageReference Include="Google.Apis.Core" Version="1.49.0" />
     <PackageReference Include="Microsoft.AspNet.SignalR.JS" Version="2.4.1" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.7" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="3.1.9" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.9" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.9" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.9" />

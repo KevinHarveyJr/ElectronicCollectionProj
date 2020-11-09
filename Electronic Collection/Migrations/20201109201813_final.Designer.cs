@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Electronic_Collection.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201015182642_PostNukeInit")]
-    partial class PostNukeInit
+    [Migration("20201109201813_final")]
+    partial class final
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -147,11 +147,14 @@ namespace Electronic_Collection.Migrations
                     b.Property<int>("GenreId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsDislike")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("ReleaseDate")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("Released")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("TypeId")
                         .HasColumnType("int");
@@ -209,8 +212,8 @@ namespace Electronic_Collection.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "dba11744-3c44-402d-bd14-18248eb62fd7",
-                            ConcurrencyStamp = "73eaf887-4b85-48b3-b7a2-3b040df8fe3a",
+                            Id = "d8585771-76a5-4714-8cb4-874abc3625a5",
+                            ConcurrencyStamp = "5899b9a5-b90c-445e-9fe2-aeb03b4ad04e",
                             Name = "Collector",
                             NormalizedName = "COLLECTOR"
                         });

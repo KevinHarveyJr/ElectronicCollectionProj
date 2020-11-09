@@ -10,6 +10,9 @@ using Electronic_Collection.Models;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using System.Net.Http;
+using System.Collections;
+using Newtonsoft.Json.Linq;
 
 namespace Electronic_Collection.Controllers
 {
@@ -64,6 +67,7 @@ namespace Electronic_Collection.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Collector collector)
         {
+        
             if (ModelState.IsValid)
             {
                 var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -159,5 +163,30 @@ namespace Electronic_Collection.Controllers
         {
             return _context.Collector.Any(e => e.CollectorId == id);
         }
+        //    public async Task<IActionResult> GoogleSearch(string search)
+        //    {
+        //        String apiKey = "09aa5fc001b5027e8bfd374ae1870de8b6b803401d8e8b46eacfca08c4d26e4e";
+        //        Hashtable ht = new Hashtable();
+        //        ht.Add("q", search);
+        //        ht.Add("tbm", "shop");
+        //        ht.Add("location", "Houston");
+        //        ht.Add("hl", "en");
+        //        ht.Add("gl", "us");
+
+        //        try
+        //        {
+        //            GoogleSearchResultsClient client = new GoogleSearchResultsClient(ht, apiKey);
+        //            JObject data = client.GetJson();
+        //            var answer_box = data["answer_box"];
+        //        }
+        //        catch (SerpApiClientException ex)
+        //        {
+        //            Console.WriteLine("Exception:");
+        //            Console.WriteLine(ex.ToString());
+        //        }
+        //    }
+
+        //    GET https://serpapi.com/search.html?engine=google&q?=
+
     }
 }

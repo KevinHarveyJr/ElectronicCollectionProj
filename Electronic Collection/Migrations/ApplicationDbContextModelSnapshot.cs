@@ -145,10 +145,13 @@ namespace Electronic_Collection.Migrations
                     b.Property<int>("GenreId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsDislike")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ReleaseDate")
+                    b.Property<string>("Released")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("TypeId")
@@ -161,21 +164,6 @@ namespace Electronic_Collection.Migrations
                     b.HasIndex("TypeId");
 
                     b.ToTable("Item");
-                });
-
-            modelBuilder.Entity("Electronic_Collection.Models.TitleInput", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("TitleToSearchBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("INPUTS");
                 });
 
             modelBuilder.Entity("Electronic_Collection.Models.TypeObj", b =>
@@ -222,8 +210,8 @@ namespace Electronic_Collection.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "d5b87ab4-4ff5-4a29-bc22-5895db2be5ea",
-                            ConcurrencyStamp = "9145a464-c946-4837-9366-c693c8322c90",
+                            Id = "d8585771-76a5-4714-8cb4-874abc3625a5",
+                            ConcurrencyStamp = "5899b9a5-b90c-445e-9fe2-aeb03b4ad04e",
                             Name = "Collector",
                             NormalizedName = "COLLECTOR"
                         });

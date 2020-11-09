@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Electronic_Collection.Migrations
 {
-    public partial class PostNukeInit : Migration
+    public partial class final : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -213,9 +213,10 @@ namespace Electronic_Collection.Migrations
                     ItemId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: true),
-                    ReleaseDate = table.Column<DateTime>(nullable: false),
+                    Released = table.Column<string>(nullable: true),
                     GenreId = table.Column<int>(nullable: false),
-                    TypeId = table.Column<int>(nullable: false)
+                    TypeId = table.Column<int>(nullable: false),
+                    IsDislike = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -312,7 +313,7 @@ namespace Electronic_Collection.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "dba11744-3c44-402d-bd14-18248eb62fd7", "73eaf887-4b85-48b3-b7a2-3b040df8fe3a", "Collector", "COLLECTOR" });
+                values: new object[] { "d8585771-76a5-4714-8cb4-874abc3625a5", "5899b9a5-b90c-445e-9fe2-aeb03b4ad04e", "Collector", "COLLECTOR" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

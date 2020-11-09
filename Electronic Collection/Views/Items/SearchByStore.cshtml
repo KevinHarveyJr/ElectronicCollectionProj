@@ -1,21 +1,20 @@
-﻿@model Electronic_Collection.Models.GenreObj
+﻿@model Electronic_Collection.Models.Store
 
-@{ ViewData["Title"] = "SearchByGenre"; }
+@{ ViewData["Title"] = "SearchByStore"; }
 
-<h1>SearchByGenre</h1>
+<h1>SearchByStore</h1>
 
-<h4>TypeTitle</h4>
+<h4>Store</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="SearchByTitle">
+        <form asp-action="SearchByStore">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="GenreId" />
+            <input type="hidden" asp-for="Id" />
             <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                @*<input asp-for="TitleToSearchBy" class="form-control" />*@
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -26,6 +25,7 @@
 
 <div>
     <a type="button" asp-controller="GamesIndex"> Back to GamesIndex</a>
+
 </div>
 
 @section Scripts {
